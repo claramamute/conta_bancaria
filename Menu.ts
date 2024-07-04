@@ -1,28 +1,54 @@
 import { Conta } from "./src/model/Conta";
+import { ContaCorrente } from "./src/model/ContaCorrente";
+import { ContaPoupanca } from "./src/model/ContaPoupanca";
 import { colors}  from "./src/util/Colors";
 import readlinesync = require('readline-sync')
 
 export function main(){
     let opcao: number;
 
-    //Novas instancias da classe Conta (Objetos)
-    const c1: Conta = new Conta(1,1234,1,'clara',10000) //colocar dados da conta
-    const c2: Conta = new Conta(2,2345,2,'julia',9000) //colocar dados da conta
+    // //Novas instancias da classe Conta (Objetos)
+    // const c1: Conta = new Conta(1,1234,1,'clara',10000) //colocar dados da conta
+    // const c2: Conta = new Conta(2,2345,2,'julia',9000) //colocar dados da conta
 
-    c1.visualizar();
-    c2.visualizar();
+    // c1.visualizar();
+    // c2.visualizar();
 
-    //Saque nas contas:
-    console.log(colors.bg.black, colors.fg.cyan,`Saque de 100: ${c1.sacar(100)}`); //true
-    c1.visualizar(); // false
+    // //Saque nas contas:
+    // console.log(colors.bg.black, colors.fg.cyan,`Saque de 100: ${c1.sacar(100)}`); //true
+    // c1.visualizar(); // false
 
 
-    console.log(`Saque de 70000: ${c2.sacar(70000)}`);
-    c2.visualizar()
+    // console.log(`Saque de 70000: ${c2.sacar(70000)}`);
+    // c2.visualizar()
 
-    //Deposito nas contas
-    console.log(`Deposito de 70000: ${c2.depositar(200)}`);
-    c2.visualizar()
+    // //Deposito nas contas
+    // console.log(`Deposito de 70000: ${c2.depositar(200)}`);
+    // c2.visualizar()
+
+    //Novas instancias da classe Conta Corrente (Objetos)
+    const cc1: Conta = new ContaCorrente(1,1234,1,'clara',10000.00, 100000.00) //colocar dados da conta
+    const cc2: Conta = new ContaCorrente( 2,2345,2,'julia',1000.00, 100.00) //colocar dados da conta
+    
+    cc1.visualizar()
+    cc2.visualizar()
+
+    //Testar limite
+    console.log(`Saque de R$25.000 na conta CC1: ${cc1.sacar(25000)}`);
+    console.log(`Saque de R$1.500 na conta CC2: ${cc2.sacar(15000)}`);
+
+    //Não possui o método depositar na conta corrente ent vai puxar da superclasse - polimorfismo 
+    console.log('\n Depositar R$ 3.000 na conta CC2:')
+    cc2.depositar(3000);
+    cc2.visualizar();
+
+    //Novas instancias Conta Poupanca
+    const cp1: Conta = new ContaPoupanca(1,1234,1,'clara',10000.00,10)
+    cp1.visualizar()
+    cp1.depositar(10000)
+    cp1.visualizar()
+    cp1.sacar(100)
+    cp1.visualizar()
 
     while(true){
         console.log(colors.bg.black, colors.fg.cyan,
