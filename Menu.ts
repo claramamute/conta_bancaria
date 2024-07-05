@@ -1,3 +1,4 @@
+import { ContaController } from "./src/controller/ContaController";
 import { Conta } from "./src/model/Conta";
 import { ContaCorrente } from "./src/model/ContaCorrente";
 import { ContaPoupanca } from "./src/model/ContaPoupanca";
@@ -5,45 +6,23 @@ import { colors}  from "./src/util/Colors";
 import readlinesync = require('readline-sync')
 
 export function main(){
-    let opcao: number;
 
-
-    //Novas instancias da classe Conta Corrente (Objetos)
-    const cc1: Conta = new ContaCorrente(1,1234,1,'clara',10000.00, 100000.00) //colocar dados da conta
-    const cc2: Conta = new ContaCorrente( 2,2345,2,'julia',1000.00, 100.00) //colocar dados da conta
+    let opcao,numero,agencia,tipo,saldo,limite,aniversario: number;
+    let titular: string;
+    const tipoContas = ['Conta Corrente', 'Conta Poupanca'] //Ajudar na construcao pois a readlinesync tem opcao de escolher apenas oq esta no vetor
     
-    cc1.visualizar()
-    cc2.visualizar()
-
-    //Testar limite
-    console.log(`Saque de R$25.000 na conta CC1: ${cc1.sacar(25000)}`);
-    console.log(`Saque de R$1.500 na conta CC2: ${cc2.sacar(15000)}`);
-
-    //Não possui o método depositar na conta corrente ent vai puxar da superclasse - polimorfismo 
-    console.log('\n Depositar R$ 3.000 na conta CC2:')
-    cc2.depositar(3000);
-    cc2.visualizar();
-
-    //Novas instancias Conta Poupanca
-    const cp1: Conta = new ContaPoupanca(1,1234,1,'clara',10000.00,10)
-    cp1.visualizar()
-    cp1.depositar(10000)
-    cp1.visualizar()
-    cp1.sacar(100)
-    cp1.visualizar()
+    //Instancia da Classe Controller para ter acesso aos métodos
+    const contas: ContaController = new ContaController()
 
     while(true){
         console.log(colors.bg.black, colors.fg.cyan,
                     "**********************************************************");
         console.log("                                                          ");
-        console.log(
-                    "                     BANCO DO BRAZIL COM Z                ");
+        console.log("                     OKCTO BANK                           ");
         console.log("                                                          ");
-        console.log(
-                    "**********************************************************");        
+        console.log("**********************************************************");        
         console.log('                                                          ')
-        console.log(
-            '                1- Criar Conta                            ')
+        console.log('                1- Criar Conta                            ')
         console.log('                2- Listar todas Contas                    ')
         console.log('                3- Buscar conta por número                ')
         console.log('                4- Atualizar  Dados Conta                 ')
@@ -53,8 +32,7 @@ export function main(){
         console.log('                8- Transferir valores entre Contas        ')
         console.log('                9- Sair                                   ')
         console.log('                                                          ')
-        console.log(
-                    '**********************************************************')
+        console.log('**********************************************************')
         console.log('                                                          ')
         console.log('Entre com a opção desejada: ')
         opcao = readlinesync.questionInt('')
@@ -67,14 +45,57 @@ export function main(){
         switch (opcao) {
             case 1:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nCriar Conta\n\n");
+                
+                //Etiquetas para entrada de dados
+                console.log('Digite o Número da Agência: ')
+                agencia = readlinesync.questionInt('')
+
+                console.log('Digite o Nome do Titular da Conta: ')
+                titular = readlinesync.question('')
+
+                console.log('Digite o Tipo da Conta: ')
+                tipo = readlinesync.keyInSelect(tipoContas, "", {cancel: false}) + 1 // Obrigando a pessoa a escolher um tipo de conta, colocou o +1 pois não existe conta 0
+                
+
+                console.log('Digite o Saldo da Conta: ')
+                saldo = readlinesync.questionFloat('')
+
+                //Checar o tipo da conta -> tipo 1 informar limite, tipo 2 - informar niver
+
+                switch(tipo){ //Independente do tipo, vai armazenar na Coleção contas
+
+                    case 1: // Se escolher tipo 1, vai criar objeto tipo corrente
+                        console.log('Digite o Limite da Conta: ')
+                        limite = readlinesync.questionFloat('')
+                            contas.cadastrar(
+                                new ContaCorrente(contas.gerarNumero(),agencia,tipo,titular,saldo,limite)
+                            )
+                        break
+
+                    case 2: // Se escolher tipo 2, vai criar objeto tipo poupanca
+                        console.log('Digite a Data de Aniversário da Conta: ')
+                        aniversario = readlinesync.questionInt('')
+                            contas.cadastrar(
+                                new ContaPoupanca(contas.gerarNumero(),agencia,tipo,titular,saldo,aniversario)
+                            )
+                        break
+                }
+
                 keyPress()
                 break;
             case 2:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nListar todas as Contas\n\n");
+                    contas.listarTodas(); // lista todas as contas do Array
                 keyPress()
                 break;
             case 3:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nConsultar dados da Conta - por número\n\n");
+                
+                console.log('Digite o número da conta: ')
+                numero = readlinesync.questionInt("")
+
+                contas.procurarPorNumero(numero)
+
                 keyPress()
                 break;
             case 4:

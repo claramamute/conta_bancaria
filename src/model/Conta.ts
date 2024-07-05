@@ -90,7 +90,7 @@ export abstract class  Conta{
                 tipo = "Conta Corrente"
                 break;
             case 2:
-                tipo = "Conta Poupança"
+                tipo = "Conta Poupanca"
                 break;
         }
 
