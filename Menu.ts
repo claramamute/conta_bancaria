@@ -7,24 +7,6 @@ import readlinesync = require('readline-sync')
 export function main(){
     let opcao: number;
 
-    // //Novas instancias da classe Conta (Objetos)
-    // const c1: Conta = new Conta(1,1234,1,'clara',10000) //colocar dados da conta
-    // const c2: Conta = new Conta(2,2345,2,'julia',9000) //colocar dados da conta
-
-    // c1.visualizar();
-    // c2.visualizar();
-
-    // //Saque nas contas:
-    // console.log(colors.bg.black, colors.fg.cyan,`Saque de 100: ${c1.sacar(100)}`); //true
-    // c1.visualizar(); // false
-
-
-    // console.log(`Saque de 70000: ${c2.sacar(70000)}`);
-    // c2.visualizar()
-
-    // //Deposito nas contas
-    // console.log(`Deposito de 70000: ${c2.depositar(200)}`);
-    // c2.visualizar()
 
     //Novas instancias da classe Conta Corrente (Objetos)
     const cc1: Conta = new ContaCorrente(1,1234,1,'clara',10000.00, 100000.00) //colocar dados da conta
