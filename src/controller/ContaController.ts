@@ -59,15 +59,42 @@ export class ContaController implements ContaRepository{
     }
 
     sacar(numero: number, valor: number): void {
-        throw new Error("Method not implemented.");
+        let conta = this.buscarNoArray(numero) // Pega o OBJETO CONTA (por isso da acesso aos metodos da conta: sacar, depositar )
+
+        if(conta !== null){ // Se a conta existir 
+            if(conta.sacar(valor) == true ){ //Se o saque desse valor for sucesso (valor < saldo), dai saca da conta 
+                console.log(`\n O Saque na Conta ${numero} foi realizada com sucesso`)
+            } else{
+                console.log('\n A Conta não foi encontrada!')
+            }
+        }
     }
 
     depositar(numero: number, valor: number): void {
-        throw new Error("Method not implemented.");
+        
+        let conta = this.buscarNoArray(numero) // Pega o OBJETO CONTA (por isso da acesso aos metodos da conta: sacar, depositar )
+
+        if(conta !== null){ // Se a conta existir 
+            conta.depositar(valor)
+            console.log (`\n O Depósito de R$ ${valor} na conta ${numero} foi efetuado com sucesso!`)
+        }else{
+            console.log('\nConta não foi encontrada!')
+        }
+        
     }
 
-    transferir(numeroOrigim: number, numeroDestino: number, valor: number): void {
-        throw new Error("Method not implemented.");
+    transferir(numeroOrigem: number, numeroDestino: number, valor: number): void {
+       let conta = this.buscarNoArray(numeroOrigem)
+       let contaDestino = this.buscarNoArray(numeroDestino)
+
+       if(conta !== null && contaDestino !== null){
+            if(conta.sacar(valor) == true){
+                contaDestino.depositar(valor)
+                console.log(`\n A Transferência da Conta ${numeroOrigem} para a Conta ${numeroDestino} foi efetuado com sucesso!`)
+            }
+       }else{
+            console.log('\n As Contas não foram encontradas!')
+        }
     }
 
 //Métodos auxiliares (n estao na interface)
@@ -76,7 +103,7 @@ export class ContaController implements ContaRepository{
         return ++ this.numero; // cada vez que chamar o cadastrar conta, vai incrementar um numero a cada conta criada 
     }
 
-    public buscarNoArray(numero: number): Conta | null{ //Se encontrar o numero na conta, devolve conta, se nao achar, devolve null
+    public buscarNoArray(numero: number): Conta | null{ //Se encontrar o numero na conta, devolve objeto conta, se nao achar, devolve null
         for(let conta of this.listaContas){
             if(conta.numero === numero){ // procura pela conta por meio do atributo numero 
                 return conta;

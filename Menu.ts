@@ -1,3 +1,4 @@
+import { read } from "fs";
 import { ContaController } from "./src/controller/ContaController";
 import { Conta } from "./src/model/Conta";
 import { ContaCorrente } from "./src/model/ContaCorrente";
@@ -7,7 +8,7 @@ import readlinesync = require('readline-sync')
 
 export function main(){
 
-    let opcao,numero,agencia,tipo,saldo,limite,aniversario: number;
+    let opcao,numero,agencia,tipo,saldo,limite,aniversario,valor,numeroDestino: number;
     let titular: string;
     const tipoContas = ['Conta Corrente', 'Conta Poupanca'] //Ajudar na construcao pois a readlinesync tem opcao de escolher apenas oq esta no vetor
     
@@ -167,14 +168,45 @@ export function main(){
                 
             case 6:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nSaque\n\n");
+
+                console.log('Digite o número da Conta: ')
+                numero = readlinesync.questionInt('')
+
+                console.log('Digite o valor do Saque: ')
+                valor = readlinesync.questionFloat('')
+
+                contas.sacar(numero, valor)
+
                 keyPress()
                 break;
             case 7:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nDepósito\n\n");
+
+                console.log('Digite o número da Conta: ')
+                numero = readlinesync.questionInt('')
+
+                console.log('Digite o valor do Deposito: ')
+                valor = readlinesync.questionFloat('')
+
+                contas.depositar(numero, valor)
+
                 keyPress()
                 break;
             case 8:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nTransferência entre Contas\n\n");
+
+                console.log('Digite o número da Conta: ')
+                numero = readlinesync.questionInt('')
+
+                console.log('Digite o número Destino: ')
+                numeroDestino = readlinesync.questionInt('')
+
+                console.log('Digite o valor da Transferencia: ')
+                valor = readlinesync.questionFloat('')
+
+                contas.transferir(numero,numeroDestino, valor)
+
+
                 keyPress()
                 break;
             default:
