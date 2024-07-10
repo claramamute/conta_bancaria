@@ -16,8 +16,8 @@ export interface ContaRepository{
 
     //Métodos bancários
 
-    sacar(numero:number, valor: number): void;
+    sacar(numero:number, valor: number): void; //numero da conta que vai sacar e o valor
     depositar(numero:number, valor:number): void;
-    transferir(numeroOrigim: number, numeroDestino: number, valor: number): void;
+    transferir(numeroOrigim: number, numeroDestino: number, valor: number): void; //numero da conta que vai tirar e da conta que vai inserir
 
 }

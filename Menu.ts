@@ -14,6 +14,14 @@ export function main(){
     //Instancia da Classe Controller para ter acesso aos métodos
     const contas: ContaController = new ContaController()
 
+       // Novas Instâncias da Classe ContaCorrente (Objetos)
+    contas.cadastrar(new ContaCorrente(contas.gerarNumero(),1234,1,'titular',200.00,1000.00))
+    contas.cadastrar(new ContaCorrente(contas.gerarNumero(),5678,1,'clara',10000.00,20000.00))
+ 
+    // Novas Instâncias da Classe Poupança (Objetos)
+    contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), 5789, 2, 'Camila Ribeiro', 2523443.00, 10));
+    contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), 3214, 2, ' Ribeiro', 10000.00, 10));
+
     while(true){
         console.log(colors.bg.black, colors.fg.cyan,
                     "**********************************************************");
@@ -100,12 +108,63 @@ export function main(){
                 break;
             case 4:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nAtualizar dados da Conta\n\n");
+
+                console.log('Digite o número da conta: ')
+                numero = readlinesync.questionInt("")
+
+                let conta = contas.buscarNoArray(numero)// para saber se a conta existe ou n
+
+                if(conta){
+
+                    console.log('Digite o Número da Agência: ')
+                    agencia = readlinesync.questionInt('')
+
+                    console.log('Digite o Nome do Titular da Conta: ')
+                    titular = readlinesync.question('')
+
+                    
+                    tipo = conta.tipo 
+                    
+                    console.log('Digite o Saldo da Conta: ')
+                    saldo = readlinesync.questionFloat('')
+
+                    //Checar o tipo da conta -> tipo 1 informar limite, tipo 2 - informar niver
+
+                    switch(tipo){ //Independente do tipo, vai armazenar na Coleção contas
+
+                        case 1: // Se escolher tipo 1, vai criar objeto tipo corrente
+                            console.log('Digite o Limite da Conta: ')
+                            limite = readlinesync.questionFloat('')
+                                contas.atualizar(
+                                    new ContaCorrente(numero,agencia,tipo,titular,saldo,limite)
+                                )
+                            break
+
+                        case 2: // Se escolher tipo 2, vai criar objeto tipo poupanca
+                            console.log('Digite a Data de Aniversário da Conta: ')
+                            aniversario = readlinesync.questionInt('')
+                                contas.atualizar(
+                                    new ContaPoupanca(numero,agencia,tipo,titular,saldo,aniversario)
+                                )
+                            break
+                    }
+                
+                } else{
+                    console.log(`\nA Conta ${numero} não existe!`)
+                }
                 keyPress()
                 break;
             case 5:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nApagar uma Conta\n\n");
+
+                console.log('Digite o número da conta: ')
+                numero = readlinesync.questionInt("")
+
+                contas.deletar(numero)
+
                 keyPress()
                 break;
+                
             case 6:
                 console.log(colors.bg.black, colors.fg.cyanstrong, "\n\nSaque\n\n");
                 keyPress()
