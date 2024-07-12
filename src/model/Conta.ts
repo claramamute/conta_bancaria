@@ -94,7 +94,8 @@ export abstract class  Conta{
                 break;
         }
 
-        console.log(colors.bg.black, colors.fg.cyan,"\n*****************************************************");
+        console.log(colors.fg.bluestrong)
+        console.log("\n*****************************************************");
         console.log("Dados da Conta:");
         console.log("*****************************************************");
         console.log("Numero da Conta: " + this._numero);
@@ -102,6 +103,7 @@ export abstract class  Conta{
         console.log("Tipo da Conta: " + tipo);
         console.log("Titular: " + this._titular);
         console.log("Saldo: " + this._saldo);
+        console.log(colors.reset)
 
     }
 

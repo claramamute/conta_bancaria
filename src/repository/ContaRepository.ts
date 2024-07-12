@@ -7,7 +7,7 @@ export interface ContaRepository{
     //Em cada linha da coleção, armazena um objeto
 
     //Métodos CRUD 
-
+    procurarPorTitular(titular: string): void
     procurarPorNumero(numero: number): void;
     listarTodas(): void; //Listar todas contas
     cadastrar (conta: Conta): void; //Cadastrar conta nova - Objeto modelo/ generico de conta
